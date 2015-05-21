@@ -53,6 +53,16 @@ function Paddle() {
     };
 }
 
+function Brick() {
+    this.x = 5;
+    this.y = 10;
+
+    this.draw = function(brush) {
+        brush.fillRect(this.x, this.y, 25, 10);
+    };
+
+}
+
 $(window).mousemove(function(event) {
     p.move(event.originalEvent.movementX);
 });
@@ -67,6 +77,7 @@ function draw() {
     // Draw
     b.draw(brush);
     p.draw(brush);
+    i.draw(brush);
 
     // Move
     b.move();
@@ -76,4 +87,5 @@ function draw() {
 
 var b = new Ball();
 var p = new Paddle();
+var i = new Brick();
 draw();
