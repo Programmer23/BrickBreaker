@@ -56,9 +56,11 @@ function Paddle() {
 function Brick() {
     this.x = 5;
     this.y = 10;
+    cx = 5;
+    var bx = this.x + cx;
 
     this.draw = function(brush) {
-        brush.fillRect(this.x, this.y, 25, 10);
+        brush.fillRect(bx, this.y, 25, 10);
     };
 
 }
@@ -87,5 +89,9 @@ function draw() {
 
 var b = new Ball();
 var p = new Paddle();
-var i = new Brick();
+var x = 1
+while(x <= 20) {
+    var i = new Brick();
+    x = x + 1;
+}
 draw();
