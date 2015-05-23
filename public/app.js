@@ -17,7 +17,10 @@ function Ball() {
         var ty = this.y + this.vy;
 
         if (tx >= 0 && tx <= 600 && (ty > 400 || ty < 0)) {
-            this.vy *= -1;
+            this.x = 200;
+            this.y = 300;
+            this.vx = -3;
+            this.vy = 2;
         }
 
         if (ty >= 0 && ty <= 400 && tx > 600) {
@@ -25,10 +28,7 @@ function Ball() {
         }
 
         if (ty >= 0 && ty <= 400 && tx < 0) {
-            this.x = 200;
-            this.y = 300;
-            this.vx = -3;
-            this.vy = 2;
+            this.vy *= -1;
         }
 
         if (tx > p.x && tx < p.x + 60 && ty > p.y && ty < p.y + 10) {
