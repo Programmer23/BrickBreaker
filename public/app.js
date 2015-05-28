@@ -1,6 +1,6 @@
 function Ball() {
     this.x = 300;
-    this.y = 200;
+    this.y = 20;
     this.vx = -3;
     this.vy = 2;
 
@@ -16,23 +16,23 @@ function Ball() {
         var tx = this.x + this.vx;
         var ty = this.y + this.vy;
 
-        if (tx >= 0 && tx <= 600 && (ty > 400 || ty < 0)) {
-            this.x = 200;
-            this.y = 300;
+        if (tx >= 0 && tx <= 600 && ty > 400) {
+            this.x = 300;
+            this.y = 200;
             this.vx = -3;
             this.vy = 2;
         }
 
-        if (ty >= 0 && ty <= 400 && tx > 600) {
-            this.vx *= -1.1;
+        if (ty >= 0 && ty <= 400 && (tx > 600 || tx < 0)) {
+            this.vx *= -1;
         }
 
-        if (ty >= 0 && ty <= 400 && tx < 0) {
+        if (tx >=0 && tx <=600 && ty < 0) {
             this.vy *= -1;
         }
 
         if (tx > p.x && tx < p.x + 60 && ty > p.y && ty < p.y + 10) {
-            this.vx *= -1;
+            this.vy *= -1;
         }
 
         this.x += this.vx;
@@ -89,9 +89,6 @@ function draw() {
 
 var b = new Ball();
 var p = new Paddle();
-var x = 1
-while(x <= 20) {
-    var i = new Brick();
-    x = x + 1;
-}
+var i = new Brick();
+
 draw();
