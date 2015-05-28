@@ -53,14 +53,12 @@ function Paddle() {
     };
 }
 
-function Brick() {
-    this.x = 5;
-    this.y = 10;
-    cx = 5;
-    var bx = this.x + cx;
+function Brick(x, y) {
+    this.x = x;
+    this.y = y;
 
     this.draw = function(brush) {
-        brush.fillRect(bx, this.y, 25, 10);
+        brush.fillRect(this.x, this.y, 25, 10);
     };
 }
 
@@ -88,6 +86,11 @@ function draw() {
 
 var b = new Ball();
 var p = new Paddle();
-var i = new Brick();
+var a = ['b1', 'b2', 'b3'];
+var bx = 5;
+for(var i in a){
+    a[i] = new Brick(bx, 10);
+    bx += 25
+}
 
 draw();
