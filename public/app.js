@@ -62,7 +62,6 @@ function Brick() {
     this.draw = function(brush) {
         brush.fillRect(bx, this.y, 25, 10);
     };
-
 }
 
 $(window).mousemove(function(event) {
