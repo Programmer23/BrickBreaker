@@ -76,7 +76,9 @@ function draw() {
     // Draw
     b.draw(brush);
     p.draw(brush);
-    i.draw(brush);
+    for(var i in a) {
+        a[i].draw(brush);
+    }
 
     // Move
     b.move();
@@ -86,11 +88,11 @@ function draw() {
 
 var b = new Ball();
 var p = new Paddle();
-var a = ['b1', 'b2', 'b3'];
+var a = ['b1', 'b2', 'b3', 'b4', 'b5'];
 var bx = 5;
-for(var i in a){
+for(var i in a) {
     a[i] = new Brick(bx, 10);
-    bx += 25
+    bx += 25;
 }
 
 draw();
