@@ -13,29 +13,33 @@ function Ball() {
     };
 
     this.move = function() {
-        var tx = this.x + this.vx;
-        var ty = this.y + this.vy;
+        var newx = this.x + this.vx;
+        var newy = this.y + this.vy;
 
-        if (tx >= 0 && tx <= 600 && ty > 400) {
+        // teleports ball to start position if it hits the bottom of the screen
+        if (newx >= 0 && newx <= 600 && newy > 400) {
             this.x = 300;
             this.y = 200;
             this.vx = -3;
             this.vy = 2;
         }
 
-        if (ty >= 0 && ty <= 400 && (tx > 600 || tx < 0)) {
+        // if the ball hits the left or right walls, it bounces horizontally
+        if (newy >= 0 && newy <= 400 && (newx > 600 || newx < 0)) {
             this.vx *= -1;
         }
 
-        if (tx >=0 && tx <=600 && ty < 0) {
+        // if the ball hits the top of the screen, it bounces vertically
+        if (newx >=0 && newx <=600 && newy < 0) {
             this.vy *= -1;
         }
 
-        if (tx > p.x && tx < p.x + 60 && ty > p.y && ty < p.y + 10) {
+        // if the ball hits the paddle, it bounces vertically
+        if (newx > p.x && newx < p.x + 60 && newy > p.y && newy < p.y + 10) {
             this.vy *= -1;
         }
 
-        if (tx > a1.x && tx < a1.x + 20 && ty > a1.y && ty < a1.y + 10) {
+        if (newx > a1.x && newx < a1.x + 20 && newy > a1.y && newy < a1.y + 10) {
             console.log('Brick hit');
         }
 
