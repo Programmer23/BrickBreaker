@@ -35,6 +35,10 @@ function Ball() {
             this.vy *= -1;
         }
 
+        if (tx > a1.x && tx < a1.x + 20 && ty > a1.y && ty < a1.y + 10) {
+            console.log('Brick hit');
+        }
+
         this.x += this.vx;
         this.y += this.vy;
     };
