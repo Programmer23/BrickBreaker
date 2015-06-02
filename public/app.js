@@ -58,7 +58,7 @@ function Brick(x, y) {
     this.y = y;
 
     this.draw = function(brush) {
-        brush.fillRect(this.x, this.y, 25, 10);
+        brush.fillRect(this.x, this.y, 20, 10);
     };
 }
 
@@ -76,8 +76,17 @@ function draw() {
     // Draw
     b.draw(brush);
     p.draw(brush);
-    for(var i in a) {
-        a[i].draw(brush);
+    for(var i in a1) {
+        brush.fillStyle = '#fff';
+        a1[i].draw(brush);
+    }
+    for(var i in a2) {
+        brush.fillStyle = '#0000ff';
+        a2[i].draw(brush);
+    }
+    for(var i in a3) {
+        brush.fillStyle = '#008000';
+        a3[i].draw(brush);
     }
 
     // Move
@@ -88,11 +97,22 @@ function draw() {
 
 var b = new Ball();
 var p = new Paddle();
-var a = ['b1', 'b2', 'b3', 'b4', 'b5'];
+var a1 = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9', 'b10', 'b11', 'b12', 'b13', 'b14', 'b15', 'b16', 'b17', 'b18', 'b19', 'b20', 'b21', 'b22', 'b23', 'b24', 'b25'];
+var a2 = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9', 'b10', 'b11', 'b12', 'b13', 'b14', 'b15', 'b16', 'b17', 'b18', 'b19', 'b20', 'b21', 'b22', 'b23', 'b24', 'b25'];
+var a3 = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9', 'b10', 'b11', 'b12', 'b13', 'b14', 'b15', 'b16', 'b17', 'b18', 'b19', 'b20', 'b21', 'b22', 'b23', 'b24', 'b25'];
 var bx = 5;
-for(var i in a) {
-    a[i] = new Brick(bx, 10);
+for(var i in a1) {
+    a1[i] = new Brick(bx, 10);
     bx += 25;
 }
-
+var bx = 5
+for(var i in a2) {
+    a2[i] = new Brick(bx, 25);
+    bx += 25;
+}
+var bx = 5
+for(var i in a3) {
+    a3[i] = new Brick(bx, 40);
+    bx += 25;
+}
 draw();
