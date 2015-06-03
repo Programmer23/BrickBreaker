@@ -100,7 +100,7 @@ function draw() {
     b.draw(brush);
     p.draw(brush);
     for(var i in a1) {
-        brush.fillStyle = '#fff';
+        brush.fillStyle = '#ff0000';
         a1[i].draw(brush);
     }
     for(var i in a2) {
