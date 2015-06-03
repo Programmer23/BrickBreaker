@@ -1,6 +1,6 @@
 function Ball() {
     this.x = 300;
-    this.y = 20;
+    this.y = 90;
     this.vx = -3;
     this.vy = 2;
 
@@ -19,7 +19,7 @@ function Ball() {
         // teleports ball to start position if it hits the bottom of the screen
         if (newx >= 0 && newx <= 600 && newy > 400) {
             this.x = 300;
-            this.y = 200;
+            this.y = 90;
             this.vx = -3;
             this.vy = 2;
         }
@@ -36,7 +36,7 @@ function Ball() {
 
         // if the ball hits the paddle, it bounces vertically
         if (newx > p.x && newx < p.x + 60 && newy > p.y && newy < p.y + 10) {
-            this.vy *= -1;
+            this.vy *= -1.1;
         }
 
         if (newx > a1.x && newx < a1.x + 20 && newy > a1.y && newy < a1.y + 10) {
@@ -49,15 +49,11 @@ function Ball() {
 }
 
 function Paddle() {
-    this.x = 100;
+    this.x = 275;
     this.y = 375;
 
     this.draw = function(brush) {
         brush.fillRect(this.x, this.y, 60, 10);
-    };
-
-    this.move = function(d) {
-        this.x += d;
     };
 }
 
@@ -70,8 +66,27 @@ function Brick(x, y) {
     };
 }
 
-$(window).mousemove(function(event) {
-    p.move(event.originalEvent.movementX);
+$(window).click(function(event) {
+    btn.click(event.clientX, event.clientY);
+});
+
+var left = false;
+var right = false;
+
+$(window).keydown(function(event) {
+    if (event.keyCode == 37) {
+        left = true;
+    } else if (event.keyCode == 39) {
+        right = true;
+    }
+});
+
+$(window).keyup(function(event) {
+    if (event.keyCode == 37) {
+        left = false;
+    } else if (event.keyCode == 39) {
+        right = false;
+    }
 });
 
 function draw() {
@@ -95,6 +110,12 @@ function draw() {
     for(var i in a3) {
         brush.fillStyle = '#008000';
         a3[i].draw(brush);
+    }
+
+    if (left && p.x > 0) {
+        p.x -= 5;
+    } else if (right && p.x < 536) {
+        p.x += 5;
     }
 
     // Move
