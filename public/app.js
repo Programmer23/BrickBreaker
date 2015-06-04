@@ -39,8 +39,10 @@ function Ball() {
             this.vy *= -1.1;
         }
 
-        if (newx > a1.x && newx < a1.x + 20 && newy > a1.y && newy < a1.y + 10) {
-            console.log('Brick hit');
+        for(var i in a1) {
+            if (newx > i.x && newx < i.x + 20 && newy > i.y && newy < i.y + 10) {
+                console.log('Brick hit');
+            }
         }
 
         this.x += this.vx;
@@ -65,10 +67,6 @@ function Brick(x, y) {
         brush.fillRect(this.x, this.y, 20, 10);
     };
 }
-
-$(window).click(function(event) {
-    btn.click(event.clientX, event.clientY);
-});
 
 var left = false;
 var right = false;
