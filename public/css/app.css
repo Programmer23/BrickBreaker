@@ -4,9 +4,28 @@ body {
     background-position: center center;
 }
 
-t1 {
-    color: #ff8b0f;
-    font-size: large;
+c {
     text-align: center;
-    background-color: black;
+}
+
+t1 {
+    color: orange;
+    font-size: larger;
+}
+
+t2 {
+    color: blueviolet;
+    font-size: large;
+}
+
+b1 {
+    background-color: blue;
+    color: white;
+    font-size: small;
+}
+
+b2{
+    background-color: #ff961c;
+    color: antiquewhite;
+    font-size: small;
 }
