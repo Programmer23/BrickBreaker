@@ -75,7 +75,7 @@ function Brick(x, y) {
     };
 
     this.hit = function() {
-        if (b.x > this.x && b.x < this.x + 20 && b.y > this.y && b.y < this.y + 10) {
+        if (b.x > this.x && b.x < this.x + 20 && b.y > this.y && b.y < this.y + 20) {
             b.bounce();
         }
     }
