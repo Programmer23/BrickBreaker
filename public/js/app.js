@@ -39,15 +39,22 @@ function Ball() {
             this.vy *= -1.1;
         }
 
-        for(var i in a1) {
-            if (newx > i.x && newx < i.x + 20 && newy > i.y && newy < i.y + 10) {
-                console.log('Brick hit');
-            }
+        for(var i in a1){
+            a1[i].hit()
+        }
+        for(var i in a2){
+            a2[i].hit()
+        }
+        for(var i in a3){
+            a3[i].hit()
         }
 
         this.x += this.vx;
         this.y += this.vy;
     };
+    this.bounce = function(){
+        this.vy *= -1;
+    }
 }
 
 function Paddle() {
@@ -66,6 +73,12 @@ function Brick(x, y) {
     this.draw = function(brush) {
         brush.fillRect(this.x, this.y, 20, 10);
     };
+
+    this.hit = function() {
+        if (b.x > this.x && b.x < this.x + 20 && b.y > this.y && b.y < this.y + 10) {
+            b.bounce();
+        }
+    }
 }
 
 var left = false;
