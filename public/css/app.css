@@ -1,5 +1,4 @@
 body {
-    background-image: url('/img/wallpaper.jpg');
     background-size: cover;
     background-position: center center;
 }
@@ -14,18 +13,16 @@ t1 {
 }
 
 t2 {
-    color: blueviolet;
+    color: black;
     font-size: large;
 }
 
 b1 {
-    background-color: blue;
     color: white;
     font-size: small;
 }
 
 b2{
-    background-color: #ff961c;
-    color: antiquewhite;
+    color: gray;
     font-size: small;
 }
