@@ -12,6 +12,6 @@ get '/play' do
   erb :main
 end
 
-get '/leaderboards' do
+get '/leaderboard' do
   erb :highscores
 end
