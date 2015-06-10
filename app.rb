@@ -33,11 +33,11 @@ get '/signup' do
 end
 
 post '/signup' do
-  u = User.new
-  u.name = params[:new_username]
-  u.password = Password.create(params[:new_password])
   if (params[:new_password] == params[:new_password2])
-      u.save
+    u = User.new
+    u.name = params[:new_username]
+    u.password = Password.create(params[:new_password])
+    u.save
   else
     session["message"] = "Passwords do not match"
   end
