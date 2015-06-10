@@ -22,6 +22,16 @@ function Ball() {
             this.y = 90;
             this.vx = -3;
             this.vy = 2;
+            score = 0;
+            for(var i in a1){
+                a1[i].active = true;
+            }
+            for(var i in a2){
+                a2[i].active = true;
+            }
+            for(var i in a3){
+                a3[i].active = true;
+            }
         }
 
         // if the ball hits the left or right walls, it bounces horizontally
@@ -36,7 +46,7 @@ function Ball() {
 
         // if the ball hits the paddle, it bounces vertically
         if (newx > p.x && newx < p.x + 60 && newy > p.y && newy < p.y + 10) {
-            this.vy *= -1.1;
+            this.vy *= -1;
         }
 
         for(var i in a1){
@@ -69,14 +79,19 @@ function Paddle() {
 function Brick(x, y) {
     this.x = x;
     this.y = y;
+    this.active = true;
 
     this.draw = function(brush) {
-        brush.fillRect(this.x, this.y, 20, 10);
+        if(this.active) {
+            brush.fillRect(this.x, this.y, 20, 10);
+        }
     };
 
     this.hit = function() {
-        if (b.x > this.x && b.x < this.x + 20 && b.y > this.y && b.y < this.y + 10) {
+        if (b.x > this.x && b.x < this.x + 25 && b.y > this.y && b.y < this.y + 15 && this.active) {
             b.bounce();
+            this.active = false;
+            score += 1;
         }
     }
 }
@@ -123,6 +138,8 @@ function draw() {
         a3[i].draw(brush);
     }
 
+    $('#score').html("Score:" + score);
+
     if (left && p.x > 0) {
         p.x -= 5;
     } else if (right && p.x < 536) {
@@ -141,6 +158,7 @@ var a1 = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9', 'b10', 'b11', 'b
 var a2 = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9', 'b10', 'b11', 'b12', 'b13', 'b14', 'b15', 'b16', 'b17', 'b18', 'b19', 'b20', 'b21', 'b22', 'b23', 'b24', 'b25'];
 var a3 = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9', 'b10', 'b11', 'b12', 'b13', 'b14', 'b15', 'b16', 'b17', 'b18', 'b19', 'b20', 'b21', 'b22', 'b23', 'b24', 'b25'];
 var bx = 5;
+var score = 0;
 for(var i in a1) {
     a1[i] = new Brick(bx, 10);
     bx += 25;
