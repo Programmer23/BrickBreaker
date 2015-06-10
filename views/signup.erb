@@ -1,0 +1,14 @@
+<script>
+  <%= if @correct == false
+   alert("Username or Password is incorrect")
+   end %>
+
+</script>
+<body><div><t1><b>Sign up</b></t1></div>
+<form method="post" action="/signup">
+<input name="new_username" placeholder="Username">
+  <input name="new_password" placeholder="Password">
+  <input name="new_password2" placeholder="Confirm Password">
+  <button><t2>Create Account</t2></button>
+</form>
+</body>

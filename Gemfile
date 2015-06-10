@@ -6,5 +6,7 @@ gem 'rake'
 gem 'sequel'
 gem 'sqlite3'
 
+gem 'bcrypt'
+
 gem 'omniauth'
 gem 'omniauth-facebook'

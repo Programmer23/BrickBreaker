@@ -1,6 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    bcrypt (3.1.10-x86-mingw32)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     hashie (3.4.2)
@@ -38,6 +39,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  bcrypt
   omniauth
   omniauth-facebook
   rake
