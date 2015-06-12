@@ -25,7 +25,62 @@
     </div>
   </div>
 </nav>
+
 <%= yield %>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+<script>
+  // Facebook Authentication
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : "<%= ENV['FACEBOOK_CLIENT_ID'] %>",
+      xfbml      : true,
+      cookie     : true,
+      version    : "v2.3"
+    });
+
+    $('#facebookSignInBtn').click(function(e) {
+      e.preventDefault();
+
+      FB.login(facebookSignInCallback, {scope: 'public_profile'});
+    });
+  };
+
+  (function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  function facebookSignInCallback(authResponse) {
+    if (authResponse.status === 'connected') {
+      // Logged into your app and Facebook
+      $('#signInButtons').attr('style', 'display: none');
+
+      console.log(authResponse);
+
+      $.ajax({
+        type: 'POST',
+        url: '/auth/facebook/callback',
+        success: function() {
+          location.reload();
+        },
+        error: function(response) {
+          console.log('There was an error: ' + response.responseText);
+        }
+      });
+    } else if (response.status === 'not_authorized') {
+      // Logged into Facebook but not your app
+    } else {
+      // Not logged into Facebook or your app
+    }
+  }
+</script>
+
+<script src="/js/app.js"></script>
 </body>
 </html>

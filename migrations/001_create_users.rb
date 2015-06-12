@@ -2,8 +2,10 @@ Sequel.migration do
   up do
     create_table(:users) do
       primary_key :id
+
+      String :uid
       String :name
-      String :password
+      String :image
     end
   end
 

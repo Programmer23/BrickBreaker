@@ -8,7 +8,17 @@ use Rack::Session::Cookie, :key => 'rack.session',
     :expire_after => 2592000,
     :secret => SecureRandom.hex(64)
 
-#include BCrypt
+use OmniAuth::Builder do
+  provider :facebook, ENV['FACEBOOK_CLIENT_ID'], ENV['FACEBOOK_CLIENT_SECRET'],
+           {
+               :name => 'facebook',
+               :scope => 'public_profile',
+               :image_size => 'square',
+               :provider_ignores_state => true # Using Rack::Protection::AuthenticityToken
+           }
+end
+
+include BCrypt
 
 get '/' do
   erb :index
@@ -51,4 +61,50 @@ end
 
 get '/leaderboard' do
   erb :highscores
+end
+
+# Auth Routes and Helpers
+%w(get post).each do |method|
+  send(method, '/auth/:provider/callback') do
+    uid = request.env['omniauth.auth'].uid
+    provider_name = request.env['omniauth.auth'].provider
+    info = request.env['omniauth.auth'].info.to_hash
+    credentials = request.env['omniauth.auth'].credentials.to_hash
+
+    puts "UID: #{uid}"
+
+    unless user = User.first(:uid => uid)
+      user = User.new
+      user.uid = uid
+
+      user.name = info['name']
+      user.image = info['image']
+
+      user.save
+    end
+
+    session[:uid] = user.id
+
+    status 200
+  end
+end
+
+get '/auth/logout' do
+  session.clear
+
+  redirect url('/')
+end
+
+helpers do
+  def current_user
+    if authenticated?
+      User.first(:uid => session[:uid])
+    else
+      halt(401, 'Not authenticated')
+    end
+  end
+
+  def authenticated?
+    session[:uid] && User.first(:uid => session[:uid])
+  end
 end
