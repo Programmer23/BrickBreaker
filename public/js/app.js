@@ -6,13 +6,13 @@ function Ball() {
     this.x = ballStartX;
     this.y = ballStartY;
 
-// The ball's velocity
-    this.vx = Math.random() * 6 + -3;
-    this.vy = Math.random() * 5 + 2;
+// The ball's velocity, starts random, but always with a positive vy (down)
+    this.vx = Math.random() * 6 + -3; // random vx between -3 and 3
+    this.vy = Math.random() * 4 + 2; // random vy between 2 and 6
 
     this.setRandomVelocity = function(){
-        this.vx = Math.random() * 6 + -3;
-        this.vy = Math.random() * 5 + 2;
+        this.vx = Math.random() * 6 + -3; // random vx between -3 and 3
+        this.vy = Math.random() * 4 + 2; // random vy between 2 and 6
     }
 
     // Drawing the ball is just drawing a filled in circle
@@ -35,37 +35,29 @@ function Ball() {
         var newy = this.y + this.vy;
 
         // if ball hits the bottom of the screen, teleport ball to start position
-        if (newx >= 0 && newx <= screenSizeX && newy > screenSizeY) {
+//        if (newx >= 0 && newx <= screenSizeX && newy > screenSizeY) {
+        if (newy > screenSizeY) {
             this.x = ballStartX;
             this.y = ballStartY;
             this.setRandomVelocity();
-//            this.vx = -3;
-//            this.vy = 2;
-            score = 0;
-            for(var i in brickRow1){
-                brickRow1[i].shouldDrawBrick = true;
-            }
-            for(var i in brickRow2){
-                brickRow2[i].shouldDrawBrick = true;
-            }
-            for(var i in brickRow3){
-                brickRow3[i].shouldDrawBrick = true;
-            }
+            gameOver();
         }
 
         // if the ball hits the left or right walls, it bounces horizontally
-        if (newy >= 0 && newy <= screenSizeY && (newx > screenSizeX || newx < 0)) {
+        if (newx > screenSizeX || newx < 0) {
+//            if (newy >= 0 && newy <= screenSizeY && (newx > screenSizeX || newx < 0)) {
             this.vx *= -1;
         }
 
         // if the ball hits the top of the screen, it bounces vertically
-        if (newx >=0 && newx <= screenSizeX && newy < 0) {
+        if (newy < 0) {
+//            if (newx >=0 && newx <= screenSizeX && newy < 0) {
             this.vy *= -1;
         }
 
         // if the ball hits the paddle, it bounces vertically
         if (this.hitPaddle(newx,newy)) {
-            this.vy *= -1;
+            this.vy *= -1; // jut reverse the sign of vy
         }
 
         for(var i in brickRow1){
@@ -81,14 +73,15 @@ function Ball() {
         this.x += this.vx;
         this.y += this.vy;
     };
+
     this.bounce = function(){
         this.vy *= -1;
     }
 }
 
 function Paddle() {
-    this.x = 275;
-    this.y = 375;
+    this.x = paddleStartX;
+    this.y = paddleStartY;
 
     this.draw = function(brush) {
         brush.fillRect(this.x, this.y, paddleSizeX, paddleSizeY);
@@ -96,16 +89,14 @@ function Paddle() {
 }
 
 function Brick(x, y, color) {
-
     // position of the brick's upper left corner
     this.x = x;
     this.y = y;
 
     this.color = color;
 
-    // whether the brick should be drawn (because it hasnt ever been hit)
+    // whether the brick should be drawn (because it hasnt ever been hit by the ball)
     this.shouldDrawBrick = true;
-
 
     this.draw = function(brush) {
         if(this.shouldDrawBrick) {
@@ -115,17 +106,18 @@ function Brick(x, y, color) {
     };
 
     this.hit = function() {
-        if (b.x > this.x && b.x < this.x + 25 && b.y > this.y && b.y < this.y + 15 && this.shouldDrawBrick) {
-            b.bounce();
-            this.shouldDrawBrick = false;
-            score += 1;
+        if (this.shouldDrawBrick){
+            // check if the ball has hit this brick
+            if (b.x > this.x && b.x < this.x + brickSizeX + XspaceBetweenBricks && b.y > this.y && b.y < this.y + + brickSizeY + YspaceBetweenBricks) {this.shouldDrawBrick = false;
+                b.bounce();
+                increaseScore();
+            }
         }
     }
 }
 
 // drawGame is the main function for drawing all parts of the game
 function drawGame() {
-
     var canvas = document.getElementById('canvas');
     var brush = canvas.getContext('2d');
 
@@ -152,9 +144,9 @@ function drawGame() {
     $('#score').html("Score:" + score);
 
     if (leftArrowKeyPressed && p.x > 0) {
-        p.x -= 5;
-    } else if (rightArrowKeyPressed && p.x < 536) {
-        p.x += 5;
+        p.x -= paddleMoveSpeed;
+    } else if (rightArrowKeyPressed && p.x < screenSizeX - paddleSizeX) {
+        p.x += paddleMoveSpeed;
     }
 
     // Move
@@ -178,6 +170,26 @@ function createBricks(){
     }
 }
 
+// increase score is called whenever the ball hits a brick
+function increaseScore(){
+    score += 1;
+    // update hi score if necessary
+    if (hiScoreDuringThisGame < score) {
+        hiScoreDuringThisGame = score;
+    }
+}
+
+// gameOver is called when the paddle misses a ball
+function gameOver(){
+    score = 0;
+    // restore all bricks
+    for(var i in brickRow1){
+        brickRow1[i].shouldDrawBrick = true;
+        brickRow2[i].shouldDrawBrick = true;
+        brickRow3[i].shouldDrawBrick = true;
+    }
+}
+
 // The values used in this program
 var ballStartX = 300;
 var ballStartY = 90;
@@ -192,6 +204,11 @@ var screenSizeY = 400;
 
 var paddleSizeX = 60;
 var paddleSizeY = 10;
+
+var paddleStartX = 275;
+var paddleStartY = 375;
+
+var paddleMoveSpeed = 5;
 
 var brickSizeX = 20;
 var brickSizeY = 10;
@@ -228,6 +245,7 @@ $(window).keyup(function(event) {
 
 
 var score = 0;
+var hiScoreDuringThisGame = 0;
 
 var b = new Ball();
 var p = new Paddle();
